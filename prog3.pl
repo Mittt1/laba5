@@ -24,8 +24,7 @@ first_distributive(A, B, C) :-
     (   subset(Left, Right), subset(Right, Left), (Left \= [] ; Right \= []) % Left = Right и хотя бы одно не пустое
     ->  write('Первый дистрибутивный закон доказан.')
     ;   subset(Left, Right), subset(Right, Left), (Left = [] , Right = [])
-    ->  write('Первый дистрибутивный закон выполнен, но оба множества пусты.')
-    ;   write('Первый дистрибутивный закон не выполняется.')
+    ->  write('Первый дистрибутивный закон не выполняется.')
     ).
 
 
