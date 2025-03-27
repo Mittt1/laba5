@@ -20,11 +20,16 @@ first_distributive(A, B, C) :-
     intersection(A, C, AIC), % A ∩ C
     union(AIB, AIC, Right), % (A ∩ B) ∪ (A ∩ C)
 
+    % Выводим результаты вычислений в консоль
+    write('Левая часть: A ∩ (B ∪ C) = '), write(Left), nl,
+    write('Правая часть: (A ∩ B) ∪ (A ∩ C) = '), write(Right), nl,
+
     % Проверяем равенство множеств и нетривиальность
     (   subset(Left, Right), subset(Right, Left), (Left \= [] ; Right \= []) % Left = Right и хотя бы одно не пустое
     ->  write('Первый дистрибутивный закон доказан.')
     ;   subset(Left, Right), subset(Right, Left), (Left = [] , Right = [])
-    ->  write('Первый дистрибутивный закон не выполняется.')
+    ->  write('Первый дистрибутивный закон не выполняется. Оба множества пусты.')
+    ;   write('Первый дистрибутивный закон не выполняется. Множества не равны.')
     ).
 
 
@@ -36,3 +41,17 @@ union([H|T], B, Union) :-
 union([H|T], B, [H|Union]) :-
     \+ member(H, B),
     union(T, B, Union).
+
+% Предикат для пересечения двух множеств
+intersection([], _, []).
+intersection([H|T], B, [H|Intersection]) :-
+    member(H, B),
+    intersection(T, B, Intersection).
+intersection([_|T], B, Intersection) :-
+    intersection(T, B, Intersection).
+
+% Предикат для проверки, является ли одно множество подмножеством другого
+subset([], _).
+subset([H|T], Set) :-
+    member(H, Set),
+    subset(T, Set). 
